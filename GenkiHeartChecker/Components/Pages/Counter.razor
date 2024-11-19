@@ -1,18 +1,14 @@
 ﻿@page "/counter"
 
-
-
-
-<h1>Counter</h1>
-
 @if (_pets == null){
     <p><em>Loading...</em></p>
 }else {
-
+    <p>Press the heart button in time with the breaths/ beats a timer will start automatically.  
+        After 1 minute the presses will stop being counted and the resulting BPM will be saved in the record tab.  </p>
     <p>
         @if (_pets.Count > 0)
         {
-            <InputSelect id="SelectedPetId" class="form-control" @bind-Value="_selectedPetId">
+            <InputSelect id="SelectedPetId" class="form-control pet-select" @bind-Value="_selectedPetId">
                 @foreach (var p in _pets)
                 {
                     <option value="@p.Id">@p.PetName</option>
@@ -20,18 +16,31 @@
             </InputSelect>
         }
     </p>
-    <p role="status">Timer: @Time</p>
-    <p role="status">Current count: @currentCount</p>
-    <p role="status">Count Result: @countResult   timerlock: @timerLock</p>
+    <p class="timer-display">Timer: @Time</p>
+    <p class="count-display">Current count: @currentCount</p>
+    @* Test display not required: *@
+    @* <p role="status">Count Result: @countResult   timerlock: @timerLock</p> *@
 
+    if (_timerRecording)
+    {
+        <div class="alert alert-success" role="alert">
+            a record of @countResult has been successfully saved for @_pets.First(f => f.Id == _selectedPetId).PetName
+        </div>
+    }
+    
 
-    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    if (!_timerRecording)
+    {
+        <button id="heart" class="btn btn-primary" @onclick="IncrementCount"><div>Count Breath</div></button>
+    }
+
 
 }
 
 @code {
     private int currentCount = 0;
     private bool timerLock = false;
+    private bool _timerRecording = false;
     string timerString = "";
     private int countResult = 0;
     int _selectedPetId = 0;
@@ -55,28 +64,33 @@
 
     private async void timer()
     {
-        Start(6);
-        // Start(60);
+        // timer reduced to 6s while testing. 
+        // Start(6);
+        Start(60);
 
         timerLock = _timer.Enabled;
     }
 
-    private async void timerFinished()
+    private async void TimerFinished()
     {
-
         countResult = currentCount;
-        currentCount = 0;
-
+        _timerRecording = true;
         var heartRecord = new HeartRecord()
-        {
-            Count = countResult,
-            Pet = _pets.First(f => f.Id == _selectedPetId),
-            PetId = _selectedPetId
-        };
+            {
+                Count = currentCount,
+                Pet = _pets.First(f => f.Id == _selectedPetId),
+                PetId = _selectedPetId
+            };
 
         await SaveHeartRecord(heartRecord);
+        currentCount = 0;
         timerLock = false;
-        
+        Thread.Sleep(2000);
+        _timerRecording = false;
+        await InvokeAsync(() =>
+        {
+        StateHasChanged();
+        });
     }
 
 

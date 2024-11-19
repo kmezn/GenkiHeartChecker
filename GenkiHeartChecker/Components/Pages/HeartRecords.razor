@@ -2,32 +2,52 @@
 
 <h1>Heart Record</h1>
 
-<p>This component demonstrates showing data.</p>
-
+<p>This is the history of heart rate counts: </p>
 @if (_heartRecords == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
+    <p>
+        To delete all or a single record 
+        <label class="checkbox">
+            Show delete buttons?
+            <InputCheckbox class="cardShownCheckbox" style="margin:5px;"
+            @bind-Value="_enableDelete" />
+        </label>
+        <span style="font-weight: bold;">Warning these options are permanent! and cannot be undone. </span>
+    </p>
+    <table class="table table-fixed">
         <thead>
             <tr>
-                <th>id</th>
-                <th>Date</th>
-                <th>Count</th>
+                @* <th>id</th> *@
                 <th>Pet Name</th>
-
+                <th>BPM</th>
+                <th>Date</th>
+                @if (_enableDelete)
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (var record in _heartRecords)
             {
                 <tr>
-                    <td>@record.Id</td>
-                    <td>@record.DateTime.ToLocalTime()</td>
-                    <td>@record.Count</td>
+                    @* <td>@record.Id</td> *@@* Id probably not useful to user *@
                     <td>@record.Pet.PetName</td>
+                    <td>@record.Count</td>
+                    <td>@record.DateTime.ToLocalTime()</td>
+                    @if (_enableDelete)
+                    {
+                        <td>
+                            <button class="btn btn-danger"
+                            @onclick="(() => DeleteRecord(record))">
+                                Delete
+                            </button>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
@@ -35,10 +55,19 @@ else
 }
 
 @code {
+    bool _enableDelete = false;
     private List<HeartRecord> _heartRecords;
 
     protected override async Task OnInitializedAsync()
     {
         _heartRecords = await DBService.GetHeartRecords();
+    }
+    private async Task DeleteRecord(HeartRecord record)
+    {
+        await DBService.DeleteRecord(record);
+        _heartRecords.Remove(record);
+        _enableDelete = false;
+        StateHasChanged();
+        
     }
 }

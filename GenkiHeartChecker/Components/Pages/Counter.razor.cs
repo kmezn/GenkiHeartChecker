@@ -52,7 +52,7 @@ namespace GenkiHeartChecker.Components.Pages
             {
                 _timer.Stop();
                 await TimerOut.InvokeAsync();
-                timerFinished();
+                TimerFinished();
                 await InvokeAsync(() =>
                 {
                     StateHasChanged();

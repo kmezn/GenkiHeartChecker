@@ -72,5 +72,12 @@ namespace GenkiHeartChecker.Components
             await _conn.InsertAsync(heartRecord);
             return heartRecord;
         }
+
+        public async Task<int> DeleteRecord(HeartRecord heartRecord)
+        {
+            await _conn.DeleteAsync(heartRecord);
+            return 0;
+        }
+
     }
 }
