@@ -1,15 +1,19 @@
-﻿namespace GenkiHeartChecker
+﻿using GenkiHeartChecker.Components;
+
+namespace GenkiHeartChecker
 {
     public partial class App : Application
     {
-        public App()
+        public static DBService _dbService {  get; private set; }
+        public App(DBService db)
         {
             InitializeComponent();
+            _dbService = db;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new MainPage()) { Title = "GenkiHeartChecker" };
+            return new Window(new MainPage()) { Title = "GenkiHeartChecker"};
         }
     }
 }

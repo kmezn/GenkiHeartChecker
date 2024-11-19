@@ -1,21 +1,48 @@
 ﻿@page "/counter"
-@using System.Threading;
+
+
+
 
 <h1>Counter</h1>
 
-<p role="status">Timer: @Time</p>
-<p role="status">Current count: @currentCount</p>
-<p role="status">Count Result: @countResult   timerlock: @timerLock</p>
+@if (_pets == null){
+    <p><em>Loading...</em></p>
+}else {
+
+    <p>
+        @if (_pets.Count > 0)
+        {
+            <InputSelect id="SelectedPetId" class="form-control" @bind-Value="_selectedPetId">
+                @foreach (var p in _pets)
+                {
+                    <option value="@p.Id">@p.PetName</option>
+                }
+            </InputSelect>
+        }
+    </p>
+    <p role="status">Timer: @Time</p>
+    <p role="status">Current count: @currentCount</p>
+    <p role="status">Count Result: @countResult   timerlock: @timerLock</p>
 
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+}
 
 @code {
     private int currentCount = 0;
     private bool timerLock = false;
     string timerString = "";
     private int countResult = 0;
+    int _selectedPetId = 0;
+    List<Pet> _pets;
 
+    protected override async Task OnInitializedAsync()
+    {
+        _pets = await DBService.GetPets();
+        _selectedPetId = _pets.First().Id;
+        StateHasChanged();
+    }
 
     private async void IncrementCount()
     {
@@ -34,10 +61,20 @@
         timerLock = _timer.Enabled;
     }
 
-    private void timerFinished()
+    private async void timerFinished()
     {
+
         countResult = currentCount;
         currentCount = 0;
+
+        var heartRecord = new HeartRecord()
+        {
+            Count = countResult,
+            Pet = _pets.First(f => f.Id == _selectedPetId),
+            PetId = _selectedPetId
+        };
+
+        await SaveHeartRecord(heartRecord);
         timerLock = false;
         
     }

@@ -53,11 +53,12 @@ namespace GenkiHeartChecker.Components.Pages
                 _timer.Stop();
                 await TimerOut.InvokeAsync();
                 timerFinished();
+                await InvokeAsync(() =>
+                {
+                    StateHasChanged();
+                });
             }
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
+
         }
 
         public void Dispose()
@@ -65,7 +66,13 @@ namespace GenkiHeartChecker.Components.Pages
             _timer.Dispose();
         }
 
-        public async 
+        public async Task<HeartRecord> SaveHeartRecord(HeartRecord heartRecord)
+        {
+
+            await App._dbService.AddHeartRecord(heartRecord);
+
+            return heartRecord;
+        }
     }
 }
 
