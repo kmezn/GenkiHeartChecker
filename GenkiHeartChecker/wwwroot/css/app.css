@@ -3,7 +3,14 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: dimgrey;
     color: white;
+    background-image: url(../images/appbackground.png);
+    background-size: cover;
+    /*min-height: 100%;*/
+    background-repeat: no-repeat;
+    background-position: center center;
 }
+
+
 
 a, .btn-link {
     color: #006bb7;
@@ -69,34 +76,15 @@ a, .btn-link {
     font-size:large;
     font-style:italic;
 }
-/*test heart button*/
-#heart {
-    position: relative;
-    width: 100px;
-    height: 90px;
-    margin-top: 10px;
+
+.heart-container {
+    display:flex;
+    justify-content:center;
 }
 
-#heart::before, #heart::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: 52px;
-    height: 80px;
-    border-radius: 50px 50px 0 0;
-    background: red;
-}
-
-#heart::before {
-    left: 50px;
-    transform: rotate(-45deg);
-    transform-origin: 0 100%;
-}
-
-#heart::after {
-    left: 0;
-    transform: rotate(45deg);
-    transform-origin: 100% 100%;
+#heart-img{
+    width:50%;
+    height:50%;
 }
 
 #heart div{
@@ -105,7 +93,6 @@ a, .btn-link {
     font-weight: bold;
     padding-bottom: 35%;
 }
-/*end heart button*/
 h1:focus {
     outline: none;
 }
@@ -147,12 +134,12 @@ h1:focus {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
 .status-bar-safe-area {
-    display: none;
+    /*display: none;*/
 }
 
 @supports (-webkit-touch-callout: none) {

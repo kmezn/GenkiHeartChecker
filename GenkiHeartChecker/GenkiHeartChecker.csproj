@@ -79,10 +79,10 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\applogocircle.svg" Color="#512BD4" />
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+        <MauiSplashScreen Include="Resources\Splash\genkisplash.png" Color="#512BD4" BaseSize="128,128" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
@@ -102,6 +102,22 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
         <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiImage Include="Resources\AppIcon\appiconfg.svg" />
+      <MauiImage Include="Resources\AppIcon\applogocircle.svg" />
+      <MauiImage Include="Resources\AppIcon\applogosquare.svg" />
+      <MauiImage Include="Resources\Splash\genkisplash.png" />
+      <MauiImage Include="Resources\Splash\appsplash.svg" />
+      <MauiImage Include="Resources\Splash\splash.svg" />
+      <MauiImage Include="wwwroot\images\appbackground.png" />
+      <MauiImage Include="wwwroot\images\heart_button.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\images\appbackground.png" />
+      <None Include="wwwroot\images\heart_button.png" />
     </ItemGroup>
 
 </Project>

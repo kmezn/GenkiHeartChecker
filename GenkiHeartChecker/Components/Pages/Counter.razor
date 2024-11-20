@@ -27,13 +27,16 @@
             a record of @countResult has been successfully saved for @_pets.First(f => f.Id == _selectedPetId).PetName
         </div>
     }
-    
 
-    if (!_timerRecording)
-    {
-        <button id="heart" class="btn btn-primary" @onclick="IncrementCount"><div>Count Breath</div></button>
-    }
-
+    <div class="heart-container">
+        @if (!_timerRecording)
+        {
+            <button id="heart" class="btn heart-button" @onclick="IncrementCount">
+                <img id="heart-img" src="/images/heart_button.png" alt="Count Breath">
+            </button>
+        }
+        
+    </div>
 
 }
 
@@ -45,6 +48,7 @@
     private int countResult = 0;
     int _selectedPetId = 0;
     List<Pet> _pets;
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,10 +68,16 @@
 
     private async void timer()
     {
-        // timer reduced to 6s while testing. 
-        // Start(6);
-        Start(60);
-
+        
+        if (true)
+        {
+            Start(60);
+        }
+        else
+        {// timer reduced to 6s while testing.
+            Start(6);
+        }
+        
         timerLock = _timer.Enabled;
     }
 

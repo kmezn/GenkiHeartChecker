@@ -15,7 +15,7 @@ namespace GenkiHeartChecker.Components
                 return;
             _conn = new SQLiteAsyncConnection(MauiProgram.DbPath, MauiProgram.Flags);
             if (false)
-            {
+            {//reset for tables if required. 
                 await _conn.DropTableAsync<Pet>();
                 await _conn.DropTableAsync<HeartRecord>();
             }
