@@ -8,6 +8,7 @@ html, body {
     /*min-height: 100%;*/
     /*background-repeat: no-repeat;
     background-position: center center;*/
+    padding-top: 1.1rem;
 }
 
 
@@ -31,13 +32,12 @@ a, .btn-link {
 }
 
 /*#endif*/
-
 .pet-select {
     margin: 5px;
     width: 30%;
     min-width: 120px;
     background-color: ghostwhite;
-    color:black;
+    color: black;
 }
 
 .table {
